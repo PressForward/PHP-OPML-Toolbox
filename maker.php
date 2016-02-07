@@ -9,6 +9,12 @@ class OPML_Maker {
 			$this->obj = $OPML_obj;
 		}
 		$this->force_safe = true;
+
+		if (OPML_DEFAULT_PATH){
+			$this->path = OPML_DEFAULT_PATH;
+		} else {
+			$this->path = dirname(__FILE__);
+		}
 	}
 
 	function force_safe($force = true){
@@ -64,12 +70,9 @@ class OPML_Maker {
 
 		    			}
 		    			echo $this->assemble_tag('outline', $folder);
-		    				//var_dump($folder);
 		    				$feeds = $this->obj->get_feeds_by_folder($folder->slug);
-		    				//var_dump($feeds);
 		    				if (!empty($feeds)){
 			    				foreach ($feeds as $feed){
-			    					//var_dump($feed);
 			    					echo "\t\t\t\t".$this->assemble_tag('outline',$feed,true,array('folder','feedUrl'));
 			    				}
 			    			}
@@ -98,7 +101,7 @@ class OPML_Maker {
 
 	public function make_as_file($filepath = false){
 		if ( !$filepath ){
-			file_put_contents(plugin_dir_path( __FILE__ ).'blogroll.opml', $this->file_contents);
+			file_put_contents($this->path.'blogroll.opml', $this->file_contents);
 		} else {
 			file_put_contents($filepath, $this->file_contents);
 		}

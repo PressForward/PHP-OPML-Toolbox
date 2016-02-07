@@ -43,12 +43,8 @@ class OPML_Object {
 		} else {
 			if (isset($this->feeds[$feed_obj->id])){
 				$feed_obj = $this->feeds[$feed_obj->id];
-				//$feed_obj->folder[] = $folder;
 			} elseif (empty($feed_obj->folder) || !is_array($feed_obj->folder)) {
 				$feed_obj->folder = array();
-				//$feed_obj->folder[] = $folder;
-			} else {
-				//$feed_obj->folder[] = $folder;
 			}
 			if (is_array($folder)){
 				foreach ($folder as $folder_type){
@@ -57,7 +53,6 @@ class OPML_Object {
 			} else {
 				$feed_obj->folder[] = $folder;
 			}
-			//var_dump($feed_obj);
 			$this->feeds[$feed_obj->id] = $feed_obj;
 		}
 	}
@@ -94,10 +89,8 @@ class OPML_Object {
 		$entry['title'] = (!empty($entry['title']) ? $entry['title'] : false);
 		$entry['text'] = (!empty($entry['text']) ? $entry['text'] : false);
 		$entry = $this->assure_title_and_text($entry);
-		#var_dump($entry); die();
 		$folder->title = $entry['title'];
 		$folder->text = $entry['text'];
-		//pf_log('Making folder with title of '.$folder->title);
 		return $folder;
 	}
 	function make_a_feed_obj($entry){
@@ -118,7 +111,6 @@ class OPML_Object {
 		$feed->feedUrl = str_replace('&amp;', '&', $entry['feedUrl']);
 		$feed->htmlUrl = str_replace('&amp;', '&', $entry['htmlUrl']);
 		$feed->id = md5($feed->feedUrl);
-		//pf_log('Making feed with URL of '.$feed->feedUrl);
 		return $feed;
 	}
 	function order_opml_entries($a, $b){
@@ -153,11 +145,8 @@ class OPML_Object {
 			$folder = $folder['slug'];
 		}
 		foreach ( $this->feeds as $feed ){
-			//var_dump($feed);
 			if ( !empty($feed->folder) ){
 				foreach($feed->folder as $feed_folder){
-					//var_dump('folder: '.$folder);
-					//var_dump($feed_folder);
 					if ( !is_object($feed_folder) ){
 						var_dump('Not an object');
 						var_dump($feed_folder);
@@ -176,7 +165,6 @@ class OPML_Object {
 	public function get_feeds_without_folder(){
 		$folder_a = array();
 		foreach ( $this->feeds as $feed ){
-			//var_dump($feed);
 			if ( empty($feed->folder) ){
 				$folder_a[] = $feed;
 			}
@@ -207,7 +195,6 @@ class OPML_Object {
 			$clean;
 	}
 	public function slugify($string, $case = true, $strict = false, $spaces = false) {
-		//var_dump($string);
 		if (is_array($string) ){
 			$string = $string[0];
 		}
@@ -218,17 +205,9 @@ class OPML_Object {
 			$stringSlug = str_replace(' ', '-', $string);
 			$stringSlug = trim($stringSlug);
 			$stringSlug = str_replace('&amp;','&', $stringSlug);
-			//$charsToElim = array('?','/','\\');
 			$stringSlug = $this->sanitize($stringSlug, $case, $strict);
 		} else {
-			//$string = strip_tags($string);
-			//$stringArray = explode(' ', $string);
-			//$stringSlug = '';
-			//foreach ($stringArray as $stringPart){
-			//	$stringSlug .= ucfirst($stringPart);
-			//}
 			$stringSlug = str_replace('&amp;','&', $string);
-			//$charsToElim = array('?','/','\\');
 			$stringSlug = $this->sanitize($stringSlug, $case, $strict);
 		}
 
@@ -236,7 +215,6 @@ class OPML_Object {
 
 		if (empty($stringSlug))
 		{
-			//var_dump('probs: ' .$string); die();
 			return 'empty';
 		}
 
